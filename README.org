@@ -95,7 +95,7 @@ keys = [
              lazy.spawn("emacsclient -c -a emacs"),
              desc='Doom Emacs'
              ),
-         ### Switch focus to specific monitor (out of three)
+         ### Switch focus to specific monitor 
          Key([mod], "w",
              lazy.to_screen(0),
              desc='Keyboard focus to monitor 1'
