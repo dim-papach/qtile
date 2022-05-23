@@ -54,6 +54,7 @@ keys = [
              lazy.spawn("emacsclient -c -a emacs"),
              desc='Doom Emacs'
              ),
+        Key(["mod1"], "Shift_L" , lazy.widget['keyboardlayout'].next_keyboard()),
          ### Switch focus to specific monitor (out of three)
          Key([mod], "w",
              lazy.to_screen(0),
@@ -429,7 +430,7 @@ def init_widgets_list():
                 widget.Volume(
                     foreground = colors_morning[0],
                     background = colors_morning[4],
-                    fmt = '🔉 {}', 
+                    fmt = '🔉 {}',
                     volume_app = 'pavucontrol',
                     mouse_callbacks = {
                     "Button2": lazy.spawn("pavucontrol"),
@@ -471,7 +472,8 @@ def init_widgets_list():
                         configured_keyboards = ["us", "gr"],
                         update_interval = 1,
                         padding = 10
-                       ),                widget.QuickExit(
+                       ),
+        widget.QuickExit(
                     default_text="拉",
                     fontsize=25,
                     foreground=colors_night[8],
