@@ -1,10 +1,3 @@
-#+TITLE: Qtile Config
-#+PROPERTY: header-args :tangle config.p
-
-* Imports
-These are python modules that must be imported for this config.
-
-#+BEGIN_SRC python
 # -*- coding: utf-8 -*-
 import os
 import re
@@ -17,47 +10,12 @@ from libqtile import layout, bar, widget, hook
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 from typing import List  # noqa: F401from typing import List  # noqa: F401
-#+END_SRC
 
-* Variables
-Just some variables I am setting to make my life easier.
-
-#+BEGIN_SRC python
 mod = "mod4"              # Sets mod key to SUPER/WINDOWS
 myTerm = "alacritty"      # My terminal of choice
 myBrowser = "firefox" # My browser of choice
 myFileManager="pcmanfm"
-#+END_SRC
 
-#+RESULTS:
-: None
-
-* Keybindings
-These are the keybindings for qtile.
-
-| A FEW IMPORTANT KEYBINDINGS | ASSOCIATED ACTION                                                        |
-|-----------------------------+--------------------------------------------------------------------------|
-| MODKEY + RETURN             | opens terminal (alacritty is the terminal but can be easily changed)     |
-| MODKEY + /                  | opens run launcher (dmenu is the run launcher but can be easily changed) |
-| MODKEY + TAB                | rotates through the available layouts                                    |
-| MODKEY + q                  | closes window with focus                                                 |
-| MODKEY + SHIFT + r          | restarts qtile                                                           |
-| MODKEY + SHIFT + q          | quits qtile                                                              |
-| MODKEY + 1-9                | switch focus to workspace (1-9)                                          |
-| MODKEY + SHIFT + 1-9        | send focused window to workspace (1-9)                                   |
-| MODKEY + j                  | lazy layout down (switches focus between windows in the stack)           |
-| MODKEY + k                  | lazy layout up (switches focus between windows in the stack)             |
-| MODKEY + SHIFT + j          | lazy layout shuffle_down (rotates the windows in the stack)              |
-| MODKEY + SHIFT + k          | lazy layout shuffle_up (rotates the windows in the stack)                |
-| MODKEY + h                  | shrink size of window (MondadTall layout)                                |
-| MODKEY + l                  | expand size of window (MondadTall layout)                                |
-| MODKEY + w                  | switch focus to monitor 1                                                |
-| MODKEY + e                  | switch focus to monitor 2                                                |
-| MODKEY + period             | switch focus to next monitor                                             |
-| MODKEY + comma              | switch focus to prev monitor                                             |
-| ALT  +   SHIFT              | Change keyboard language (us,gr)                                         |
-
-#+BEGIN_SRC python
 keys = [
          ### The essentials
          Key([mod], "Return",
@@ -219,12 +177,7 @@ keys = [
                  )
          ]),
 ]
-#+END_SRC
 
-#+RESULTS:
-
-* Groups
-#+BEGIN_SRC python
 ############################################################################
 # groups = [Group(i) for i in [                                            #
 #     ("WWW",layout='monadtall'),                                          #
@@ -262,26 +215,13 @@ groups = [Group(name, **kwargs) for name, kwargs in group_names]
 for i, (name, kwargs) in enumerate(group_names, 1):
     keys.append(Key([mod], str(i), lazy.group[name].toscreen()))        # Switch to another group
     keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(name))) # Send current window to another group
-#+end_src
 
-* Settings For Some Layouts
-Settings that I use in most layouts, so I'm defining them one time here.
-
-#+BEGIN_SRC python
 layout_theme = {"border_width": 2,
                 "margin": 8,
                 "border_focus": "e1acff",
                 "border_normal": "1D2330"
                 }
-#+END_SRC
 
-#+RESULTS:
-: None
-
-* Layouts
-The layouts that I use, plus several that I don't use. Uncomment the layouts you want; comment out the ones that you don't want to use.
-
-#+BEGIN_SRC python
 layouts = [
     #layout.MonadWide(**layout_theme),
     #layout.Bsp(**layout_theme),
@@ -318,12 +258,7 @@ layouts = [
          ),
     layout.Floating(**layout_theme)
 ]
-#+END_SRC
 
-#+RESULTS:
-
-**  Floating
-#+begin_src python
 mouse = [
     Drag([mod], "Button1", lazy.window.set_position_floating(),
          start=lazy.window.get_position()),
@@ -358,12 +293,6 @@ reconfigure_screens = True
 # focus, should we respect this or not?
 auto_minimize = True
 
-#+end_src
-
-* Colors
-Defining some colors for use in our panel.  Colors have two values because you can use gradients.
-
-#+BEGIN_SRC python
 colors_morning = [["#161320"],#Flamingo 0
           ["#DDB6F2"], #Mauve 1
           ["#F5C2E7"], #Pink 2
@@ -386,15 +315,7 @@ colors_night = [["#161320"], #Black 0
           ["#D9E0EE"], #White 8
           ["#C9CBFF"], #Lavender 9
           ["#F5E0DC"],]#Rosewater 10
-#+END_SRC
 
-#+RESULTS:
-: None
-    
-* Default Widget Settings
-Defining a few default widget key values.
-
-#+BEGIN_SRC python
 ##### DEFAULT WIDGET SETTINGS #####
 widget_defaults = dict(
     font="Ubuntu Bold",
@@ -403,14 +324,7 @@ widget_defaults = dict(
     background=colors_night[4]
 )
 extension_defaults = widget_defaults.copy()
-#+END_SRC
 
-#+RESULTS:
-
-* Widgets
-This is the bar, or the panel, and the widgets within the bar.
-
-#+BEGIN_SRC python
 def init_widgets_list():
     widgets_list = [
                 widget.Sep(
@@ -568,16 +482,7 @@ def init_widgets_list():
                 )
             ]
     return widgets_list
-#+END_SRC
 
-#+RESULTS:
-: None
-
-
-* Screens
-Screen settings for my laptop setup.
-
-#+BEGIN_SRC python
 def init_widgets_screen1():
     widgets_screen1 = init_widgets_list()
     del widgets_screen1[21:23]               # Slicing removes unwanted widgets (systray) on Monitors 1,3
@@ -602,10 +507,6 @@ if __name__ in ["config", "__main__"]:
     widgets_list = init_widgets_list()
     widgets_screen1 = init_widgets_screen1()
 
-#+END_SRC
-
-* Some Important Functions
-#+begin_src python
 def window_to_prev_group(qtile):
     if qtile.currentWindow is not None:
         i = qtile.groups.index(qtile.currentGroup)
@@ -631,9 +532,7 @@ def switch_screens(qtile):
     i = qtile.screens.index(qtile.current_screen)
     group = qtile.screens[i - 1].group
     qtile.current_screen.set_group(group)
-#+end_src
-* Startup
-#+begin_src python
+
 @hook.subscribe.startup_once
 def autostart():
     home = os.path.expanduser('~/.config/qtile/autostart.sh')
@@ -647,6 +546,3 @@ def autostart():
 # We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
 # java that happens to be on java's whitelist.
 wmname = "LG3D"
-#+end_src
-
-#+RESULTS:
