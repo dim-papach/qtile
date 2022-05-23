@@ -55,7 +55,7 @@ keys = [
              desc='Doom Emacs'
              ),
         Key(["mod1"], "Shift_L" , lazy.widget['keyboardlayout'].next_keyboard()),
-         ### Switch focus to specific monitor (out of three)
+         ### Switch focus to specific monitor
          Key([mod], "w",
              lazy.to_screen(0),
              desc='Keyboard focus to monitor 1'
