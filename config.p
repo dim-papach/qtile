@@ -54,7 +54,13 @@ keys = [
              lazy.spawn("emacsclient -c -a emacs"),
              desc='Doom Emacs'
              ),
-        Key(["mod1"], "Shift_L" , lazy.widget['keyboardlayout'].next_keyboard()),
+         Key(["mod1"], "Shift_L" ,
+             lazy.widget['keyboardlayout'].next_keyboard()
+             ),
+         Key([mod, "shift"], "s",
+             lazy.spawn("gnome-screenshot -a"),
+             desc='Screenshot'
+             ),
          ### Switch focus to specific monitor
          Key([mod], "w",
              lazy.to_screen(0),
@@ -64,7 +70,8 @@ keys = [
              lazy.to_screen(1),
              desc='Keyboard focus to monitor 2'
              ),
-         ### Switch focus of monitors
+
+    ### Switch focus of monitors
          Key([mod], "period",
              lazy.next_screen(),
              desc='Move focus to next monitor'
@@ -73,7 +80,8 @@ keys = [
              lazy.prev_screen(),
              desc='Move focus to prev monitor'
              ),
-         ### Treetab controls
+
+    ### Treetab controls
           Key([mod, "shift"], "h",
              lazy.layout.move_left(),
              desc='Move up a section in treetab'
@@ -82,7 +90,8 @@ keys = [
              lazy.layout.move_right(),
              desc='Move down a section in treetab'
              ),
-         ### Window controls
+
+    ### Window controls
          Key([mod], "j",
              lazy.layout.down(),
              desc='Move focus down in current stack pane'
@@ -123,11 +132,8 @@ keys = [
              lazy.window.toggle_floating(),
              desc='toggle floating'
              ),
-         Key([mod], "m",
-             lazy.window.toggle_fullscreen(),
-             desc='toggle fullscreen'
-             ),
-         ### Stack controls
+
+    ### Stack controls
          Key([mod, "shift"], "Tab",
              lazy.layout.rotate(),
              lazy.layout.flip(),
@@ -141,7 +147,8 @@ keys = [
              lazy.layout.toggle_split(),
              desc='Toggle between split and unsplit sides of stack'
              ),
-         # Emacs programs launched using the key chord CTRL+e followed by 'key'
+
+    # Emacs programs launched using the key chord CTRL+e followed by 'key'
          KeyChord(["control"],"e", [
              Key([], "e",
                  lazy.spawn("emacsclient -c -a 'emacs'"),
@@ -174,7 +181,9 @@ keys = [
              Key([], "v",
                  lazy.spawn("emacsclient -c -a 'emacs' --eval '(+vterm/here nil)'"),
                  desc='Launch vterm inside Emacs'
-                 )
+                 ),
+
+
          ]),
 ]
 
