@@ -26,6 +26,10 @@ keys = [
              lazy.spawn("rofi -show drun"),
              desc='Run Launcher'
              ),
+         Key(["mod1"], "Tab",
+             lazy.spawn("rofi -show window"),
+             desc='Run Launcher'
+             ),
          Key([mod], "f",
              lazy.spawn(myFileManager),
              desc='File Manager'
@@ -42,6 +46,10 @@ keys = [
              lazy.window.kill(),
              desc='Kill active window'
              ),
+         Key([mod], "t",
+             lazy.spawn("systemctl suspend"),
+             desc='Suspend'
+             ),
          Key([mod, "shift"], "r",
              lazy.restart(),
              desc='Restart Qtile'
@@ -54,7 +62,22 @@ keys = [
              lazy.spawn("emacsclient -c -a emacs"),
              desc='Doom Emacs'
              ),
-        Key(["mod1"], "Shift_L" , lazy.widget['keyboardlayout'].next_keyboard()),
+         Key(["mod1"], "Shift_L" ,
+             lazy.widget['keyboardlayout'].next_keyboard()
+             ),
+         Key([mod, "shift"], "s",
+             lazy.spawn("gnome-screenshot -a"),
+             desc='Screenshot'
+             ),
+    ###XF86 KEYS
+        Key([], "XF86AudioRaiseVolume",lazy.spawn("amixer set Master 3%+")),
+        Key([], "XF86AudioLowerVolume",lazy.spawn("amixer set Master 3%-")),
+        Key([], "XF86AudioMute",lazy.spawn("amixer set Master toggle")),
+        Key([], "XF86MonBrightnessDown",lazy.spawn("brightnessctl set 10%-")),
+        Key([], "XF86MonBrightnessUp",lazy.spawn("brightnessctl set 10%+")),
+        Key([], "XF86AudioPlay",lazy.spawn("playerctl play-pause")),
+        Key([], "XF86AudioNext",lazy.spawn("playerctl next")),
+        Key([], "XF86AudioPrev",lazy.spawn("playerctl previous")),
          ### Switch focus to specific monitor
          Key([mod], "w",
              lazy.to_screen(0),
@@ -64,7 +87,8 @@ keys = [
              lazy.to_screen(1),
              desc='Keyboard focus to monitor 2'
              ),
-         ### Switch focus of monitors
+
+    ### Switch focus of monitors
          Key([mod], "period",
              lazy.next_screen(),
              desc='Move focus to next monitor'
@@ -73,7 +97,8 @@ keys = [
              lazy.prev_screen(),
              desc='Move focus to prev monitor'
              ),
-         ### Treetab controls
+
+    ### Treetab controls
           Key([mod, "shift"], "h",
              lazy.layout.move_left(),
              desc='Move up a section in treetab'
@@ -82,7 +107,8 @@ keys = [
              lazy.layout.move_right(),
              desc='Move down a section in treetab'
              ),
-         ### Window controls
+
+    ### Window controls
          Key([mod], "j",
              lazy.layout.down(),
              desc='Move focus down in current stack pane'
@@ -123,11 +149,8 @@ keys = [
              lazy.window.toggle_floating(),
              desc='toggle floating'
              ),
-         Key([mod], "m",
-             lazy.window.toggle_fullscreen(),
-             desc='toggle fullscreen'
-             ),
-         ### Stack controls
+
+    ### Stack controls
          Key([mod, "shift"], "Tab",
              lazy.layout.rotate(),
              lazy.layout.flip(),
@@ -141,7 +164,8 @@ keys = [
              lazy.layout.toggle_split(),
              desc='Toggle between split and unsplit sides of stack'
              ),
-         # Emacs programs launched using the key chord CTRL+e followed by 'key'
+
+    # Emacs programs launched using the key chord CTRL+e followed by 'key'
          KeyChord(["control"],"e", [
              Key([], "e",
                  lazy.spawn("emacsclient -c -a 'emacs'"),
@@ -174,7 +198,9 @@ keys = [
              Key([], "v",
                  lazy.spawn("emacsclient -c -a 'emacs' --eval '(+vterm/here nil)'"),
                  desc='Launch vterm inside Emacs'
-                 )
+                 ),
+
+
          ]),
 ]
 
@@ -200,7 +226,7 @@ keys = [
 #         Key([mod, "shift"], actual_key, lazy.window.togroup(group.name)) #
 #     ])                                                                   #
 ############################################################################
-group_names = [("WWW", {'layout': 'max'}),
+group_names = [("WWW", {'layout': 'monadtall'}),
                ("TERM", {'layout': 'ratiotile'}),
                ("EDITOR1", {'layout': 'monadtall'}),
                ("EDITOR2", {'layout': 'monadtall'}),
@@ -464,6 +490,9 @@ def init_widgets_list():
                     padding=0,
                     fontsize=30
                 ),
+                widget.BatteryIcon(
+                    format= "{percent:1.0%}"
+                ),
                 widget.Systray(),
                 widget.Spacer(length = 2, background = colors_morning[0]),
                 widget.KeyboardLayout(
@@ -494,11 +523,11 @@ def init_widgets_screen2():
 
 def init_screens():
     return [Screen(top=bar.Bar(widgets=init_widgets_screen2(), opacity=1.0, size=25),
-                   wallpaper="/home/dp/Pictures/Wallpapers/wallpapers/os/various-arch-2-4k.png",
+                   wallpaper='~/Pictures/cloud-bg.png',
                    wallpaper_mode='stretch',
                     ),      
             Screen(top=bar.Bar(widgets=init_widgets_screen1(), opacity=1.0, size=25),
-                   wallpaper="/home/dp/Pictures/Wallpapers/wallpapers/os/arch-rainbow-1920x1080.png",
+                   wallpaper="/run/media/dp/Important/Wallpapers/wallpapers/os/arch-rainbow-1920x1080.png",
                    ),      
             ]
 

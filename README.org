@@ -1,5 +1,5 @@
 #+TITLE: Qtile Config
-#+PROPERTY: header-args :tangle config.p
+#+PROPERTY: header-args :tangle config.py
 
 * Imports
 These are python modules that must be imported for this config.
@@ -68,6 +68,10 @@ keys = [
              lazy.spawn("rofi -show drun"),
              desc='Run Launcher'
              ),
+         Key(["mod1"], "Tab",
+             lazy.spawn("rofi -show window"),
+             desc='Run Launcher'
+             ),
          Key([mod], "f",
              lazy.spawn(myFileManager),
              desc='File Manager'
@@ -83,6 +87,10 @@ keys = [
          Key([mod], "q",
              lazy.window.kill(),
              desc='Kill active window'
+             ),
+         Key([mod], "t",
+             lazy.spawn("systemctl suspend"),
+             desc='Suspend'
              ),
          Key([mod, "shift"], "r",
              lazy.restart(),
@@ -103,6 +111,15 @@ keys = [
              lazy.spawn("gnome-screenshot -a"),
              desc='Screenshot'
              ),
+    ###XF86 KEYS
+        Key([], "XF86AudioRaiseVolume",lazy.spawn("amixer set Master 3%+")),
+        Key([], "XF86AudioLowerVolume",lazy.spawn("amixer set Master 3%-")),
+        Key([], "XF86AudioMute",lazy.spawn("amixer set Master toggle")),
+        Key([], "XF86MonBrightnessDown",lazy.spawn("brightnessctl set 10%-")),
+        Key([], "XF86MonBrightnessUp",lazy.spawn("brightnessctl set 10%+")),
+        Key([], "XF86AudioPlay",lazy.spawn("playerctl play-pause")),
+        Key([], "XF86AudioNext",lazy.spawn("playerctl next")),
+        Key([], "XF86AudioPrev",lazy.spawn("playerctl previous")),
          ### Switch focus to specific monitor
          Key([mod], "w",
              lazy.to_screen(0),
@@ -230,8 +247,6 @@ keys = [
 ]
 #+END_SRC
 
-#+RESULTS:
-
 * Groups
 #+BEGIN_SRC python
 ############################################################################
@@ -256,7 +271,7 @@ keys = [
 #         Key([mod, "shift"], actual_key, lazy.window.togroup(group.name)) #
 #     ])                                                                   #
 ############################################################################
-group_names = [("WWW", {'layout': 'max'}),
+group_names = [("WWW", {'layout': 'monadtall'}),
                ("TERM", {'layout': 'ratiotile'}),
                ("EDITOR1", {'layout': 'monadtall'}),
                ("EDITOR2", {'layout': 'monadtall'}),
@@ -272,6 +287,8 @@ for i, (name, kwargs) in enumerate(group_names, 1):
     keys.append(Key([mod], str(i), lazy.group[name].toscreen()))        # Switch to another group
     keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(name))) # Send current window to another group
 #+end_src
+
+#+RESULTS:
 
 * Settings For Some Layouts
 Settings that I use in most layouts, so I'm defining them one time here.
@@ -559,6 +576,9 @@ def init_widgets_list():
                     padding=0,
                     fontsize=30
                 ),
+                widget.BatteryIcon(
+                    format= "{percent:1.0%}"
+                ),
                 widget.Systray(),
                 widget.Spacer(length = 2, background = colors_morning[0]),
                 widget.KeyboardLayout(
@@ -582,7 +602,6 @@ def init_widgets_list():
 #+RESULTS:
 : None
 
-
 * Screens
 Screen settings for my laptop setup.
 
@@ -598,11 +617,11 @@ def init_widgets_screen2():
 
 def init_screens():
     return [Screen(top=bar.Bar(widgets=init_widgets_screen2(), opacity=1.0, size=25),
-                   wallpaper="/home/dp/Pictures/Wallpapers/wallpapers/os/various-arch-2-4k.png",
+                   wallpaper='~/Pictures/cloud-bg.png',
                    wallpaper_mode='stretch',
                     ),      
             Screen(top=bar.Bar(widgets=init_widgets_screen1(), opacity=1.0, size=25),
-                   wallpaper="/home/dp/Pictures/Wallpapers/wallpapers/os/arch-rainbow-1920x1080.png",
+                   wallpaper="/run/media/dp/Important/Wallpapers/wallpapers/os/arch-rainbow-1920x1080.png",
                    ),      
             ]
 
